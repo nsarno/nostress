@@ -30,7 +30,6 @@ function isEvent(o: Object) : boolean {
 
 export default {
   parse,
-  validate,
   isUnsignedEvent,
   isEvent
 }
