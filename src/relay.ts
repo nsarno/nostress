@@ -15,7 +15,7 @@ function storeEvent(message: string) {
   }
 }
 
-export function start(port: number = 8080) : WebSocketServer {
+export function start(port: number) : WebSocketServer {
   const wss = new WebSocketServer({ port });
 
   wss.on('listening', () => {

@@ -1,3 +1,5 @@
 import { start } from "./relay"
 
-start()
+const port = parseInt(process.env.PORT || "3000")
+
+start(port)
