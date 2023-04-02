@@ -1,24 +1,23 @@
 import { WebSocketServer } from 'ws'
-import { validateEvent, verifySignature } from 'nostr-tools'
+import { Event, validateEvent, verifySignature } from 'nostr-tools'
 
-import Cmd from './cmd'
+import command from './command'
 import db from './db'
 
-function storeEvent(message: string) {
-  let event
-
-  try {
-    event = JSON.parse(message)
-  } catch (e) {
-    console.error(e)
-    return
-  }
-
+function storeEvent(event: Event) {
   if (validateEvent(event) && verifySignature(event)) {
     db.record(event)
     console.log(db.index())
   } else {
     console.log('invalid event rejected')
+  }
+}
+
+function handleEvent(cmd : Array<any>) {
+  if (cmd[1] instanceof Object) {
+    if (command.isEvent(cmd[1])) {
+      storeEvent(cmd[1])
+    }
   }
 }
 
@@ -35,15 +34,11 @@ export function start(port: number) : WebSocketServer {
     ws.on('message', function (data) {
       console.log(`received: ${data}`)
 
-      const cmd = Cmd.parse(data.toString())
+      const cmd = command.parse(data.toString())
 
-      if (Array.isArray(cmd) && Cmd.validate(cmd)) {
-        switch (cmd[0]) {
-          case 'EVENT':
-            if (cmd[1]) {
-              storeEvent(cmd[1])
-            }
-        }
+      switch (cmd[0]) {
+        case 'EVENT':
+          handleEvent(cmd)
       }
     })
   })
