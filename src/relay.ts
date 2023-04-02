@@ -5,7 +5,14 @@ import Cmd from './cmd'
 import db from './db'
 
 function storeEvent(message: string) {
-  const event = JSON.parse(message)
+  let event
+
+  try {
+    event = JSON.parse(message)
+  } catch (e) {
+    console.error(e)
+    return
+  }
 
   if (validateEvent(event) && verifySignature(event)) {
     db.record(event)

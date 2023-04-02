@@ -15,18 +15,19 @@ function waitForSocketState(socket : WebSocket, state : number) {
 }
 
 describe("Relay", () => {
+  const PORT = 3000
   let server : WebSocketServer
 
   beforeAll(() => {
-    server = start()
+    server = start(PORT)
   })
 
   afterAll(() => {
     stop(server)
   })
 
-  test("allow connections on port 8080", async () => {
-    const addr = 'ws://localhost:8080'
+  test("allow connections", async () => {
+    const addr = `ws://localhost:${PORT}`
     const ws = new WebSocket(addr)
 
     const event = '{"pubkey":"10f7c6aeb118e2c8d819e9be990b3b30fa8be23e64db48224f25bb52ecb20b97","content":"🧪","id":"25fd2fa39a8a6ee80750c1cdad5d5f4b57cf344d9e57d2e9cd9d1afaf081b981","created_at":1678815989,"sig":"2c0f9f7222cae6a5c800a5c381866be805760fc85164affb4a38a0d9d9162fdf15cb699584a649b44a188f74ca05580ff89684a2b98b6ab80297d548752f8365","kind":1,"tags":[]}'
