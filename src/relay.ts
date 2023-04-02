@@ -26,6 +26,8 @@ export function start(port: number) : WebSocketServer {
     ws.on('error', console.error)
   
     ws.on('message', function (data) {
+      console.log(`received: ${data}`)
+
       const cmd = Cmd.parse(data.toString())
 
       if (Array.isArray(cmd) && Cmd.validate(cmd)) {
