@@ -1,0 +1,13 @@
+{
+  "compileOnSave": false,
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+      "outDir": "./dist/",
+      "types": ["jest", "node"],
+      "typeRoots": ["node_modules/@types"],
+      "noImplicitAny": true,
+      "moduleResolution": "node"
+    },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
+}
