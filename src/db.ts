@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client'
 import { Event } from "nostr-tools"
 
 type DbIndex = { [key:string] : { [key:string] : Event } }
@@ -8,9 +9,21 @@ function index() : DbIndex {
   return _index
 }
 
-function record(event : Event) {
+async function save(event : Event) {
   _index[event.pubkey] ||= {}
   _index[event.pubkey][event.id] = event
+
+  const prisma = new PrismaClient()
+
+  const record = await prisma.event.create({
+    data: {
+      event_id: event.id,
+      pubkey: event.pubkey,
+      data: {}
+    }
+  })
+
+  return record
 }
 
-export default { record, index }
+export default { save, index }

@@ -6,7 +6,7 @@ import db from './db'
 
 function storeEvent(event: Event) {
   if (validateEvent(event) && verifySignature(event)) {
-    db.record(event)
+    db.save(event)
     console.log(db.index())
   } else {
     console.log('invalid event rejected')
