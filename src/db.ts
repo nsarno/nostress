@@ -19,7 +19,7 @@ async function save(event : Event) {
     data: {
       event_id: event.id,
       pubkey: event.pubkey,
-      data: {}
+      data: event
     }
   })
 
